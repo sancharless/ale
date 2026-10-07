@@ -1,0 +1,342 @@
+/* ==========================================================================
+   DIRETRIZ VISUAL EDITORIAL — COBRE, BRONZE & MARROM PROFUNDO
+   Atmosfera: Preto quente, madeira nobre, cobre queimado, luz cinematográfica
+   ========================================================================== */
+
+:root {
+  /* Fundo Principal: Preto quente / marrom quase preto */
+  --bg-primary: #080403;
+  --bg-body: #0C0605;
+  --bg-secondary: #160905;
+  --bg-tertiary: #1C0B06;
+
+  /* Tons Secundários: Marrom profundo, chocolate, café, madeira escura */
+  --bg-wood-dark: #29110A;
+  --bg-wood-medium: #35150C;
+  --bg-wood-accent: #4A1D0E;
+
+  /* Cards e Vidro Fumê Editorial */
+  --bg-card: rgba(30, 14, 8, 0.65);
+  --bg-card-hover: rgba(45, 20, 11, 0.82);
+  --bg-card-active: rgba(55, 24, 13, 0.92);
+  --bg-glass-modal: rgba(20, 9, 6, 0.88);
+
+  /* Bordas: Fios sutis de cobre e bronze */
+  --border-subtle: rgba(230, 115, 55, 0.14);
+  --border-light: rgba(230, 115, 55, 0.22);
+  --border-hover: rgba(233, 108, 50, 0.45);
+  --border-active: #E96C32;
+
+  /* Cor de Destaque Principal: Cobre / Laranja Queimado */
+  --accent-copper: #E96C32;
+  --accent-copper-glow: #F07838;
+  --accent-copper-deep: #D85B28;
+  --accent-copper-dark: #C95A24;
+
+  /* Destaques Metálicos: Bronze, Cobre Claro, Dourado Envelhecido */
+  --metal-bronze: #B76832;
+  --metal-copper-light: #C97C45;
+  --metal-gold-aged: #D79A62;
+
+  /* Textos: Branco Quente (Off-white) e Marrom Claro */
+  --text-main: #F7F3EE;
+  --text-muted: #BEB5AD;
+  --text-dim: #8E8379;
+  --text-dark: #120704;
+
+  /* Gradientes de Luz Cobre & Bronze */
+  --grad-copper: linear-gradient(135deg, #B75220 0%, #E96C32 50%, #F07838 100%);
+  --grad-copper-subtle: linear-gradient(135deg, rgba(233, 108, 50, 0.15) 0%, rgba(183, 104, 50, 0.05) 100%);
+  --grad-card-glow: radial-gradient(circle at 50% 0%, rgba(233, 108, 50, 0.16) 0%, transparent 65%);
+
+  /* Sombras e Reflexos */
+  --shadow-card: 0 16px 40px -10px rgba(0, 0, 0, 0.75), 0 0 1px 1px rgba(230, 115, 55, 0.12);
+  --shadow-copper-glow: 0 0 35px -5px rgba(233, 108, 50, 0.35);
+  --shadow-copper-btn: 0 8px 24px -4px rgba(233, 108, 50, 0.4);
+
+  /* Transições e Blur */
+  --blur-card: blur(16px);
+  --blur-deep: blur(24px);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 180ms;
+  --duration-normal: 260ms;
+
+  /* Raios de Borda */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  /* Safe areas para Mobile/iPhone */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+/* Reset Global */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  scroll-behavior: smooth;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* Camadas de Atmosfera Cinematográfica */
+.bg-ambient-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: 
+    radial-gradient(circle at 70% 25%, rgba(235, 108, 50, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(183, 104, 50, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 50% -10%, rgba(240, 120, 56, 0.10) 0%, transparent 55%),
+    var(--bg-primary);
+}
+
+.bg-vignette-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 45%, rgba(4, 2, 2, 0.85) 100%);
+}
+
+.bg-grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+#app {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: var(--sat);
+  padding-bottom: var(--sab);
+}
+
+/* Container Editorial Centrado */
+.container {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 2.5rem 2rem;
+  }
+}
+
+/* Tipografia Editorial: Bebas Neue e Oswald nos Títulos */
+h1, h2, h3, h4, .font-editorial {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.font-condensed {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Destaque Cobre Editorial */
+.text-copper {
+  color: var(--accent-copper);
+}
+
+.text-gradient-copper {
+  background: linear-gradient(135deg, #F7F3EE 10%, #E96C32 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-highlight-copper {
+  color: #F07838;
+  font-weight: 700;
+  position: relative;
+}
+
+/* Selos e Badges Editoriais */
+.section-meta-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--metal-gold-aged);
+  margin-bottom: 0.6rem;
+}
+
+.section-meta-label .label-num {
+  color: var(--accent-copper);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+}
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background: rgba(41, 17, 10, 0.6);
+  border: 1px solid var(--border-light);
+  color: var(--metal-gold-aged);
+}
+
+/* Botões Editoriais */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-family: 'Oswald', 'Plus Jakarta Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.95rem 2rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  text-decoration: none;
+  user-select: none;
+  min-height: 54px;
+}
+
+.btn-primary {
+  background: var(--grad-copper);
+  color: #120704;
+  font-weight: 700;
+  box-shadow: var(--shadow-copper-btn), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+  box-shadow: 0 12px 30px -4px rgba(233, 108, 50, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(30, 14, 8, 0.6);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+  backdrop-filter: var(--blur-card);
+}
+
+.btn-secondary:hover {
+  background: rgba(53, 21, 12, 0.85);
+  border-color: var(--border-hover);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  min-height: 42px;
+}
+
+.btn-ghost:hover {
+  color: var(--text-main);
+  border-color: var(--border-subtle);
+  background: rgba(30, 14, 8, 0.4);
+}
+
+/* Cards de Vidro Fumê Editorial */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur-card);
+  -webkit-backdrop-filter: var(--blur-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233, 108, 50, 0.35), transparent);
+}
+
+/* Animações e Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseCopper {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.05); }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-normal) var(--ease-smooth) forwards;
+}
+
+.animate-slide-up {
+  animation: slideInUp 350ms var(--ease-smooth) forwards;
+}

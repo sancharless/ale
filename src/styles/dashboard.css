@@ -1,0 +1,505 @@
+/* ==========================================================================
+   ESTILOS DO DASHBOARD EDITORIAL — COBRE, BRONZE & MARROM
+   Relatório de Performance Pessoal: Radar Cobre, Valores Individuais e Mapa Monocromático
+   ========================================================================== */
+
+.dashboard-editorial-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 1rem 0 4rem 0;
+}
+
+/* --------------------------------------------------------------------------
+   1. HERO CARD DO RESULTADO
+   -------------------------------------------------------------------------- */
+.result-editorial-card {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(30, 14, 8, 0.85) 0%, rgba(16, 7, 5, 0.95) 100%);
+  border: 1px solid rgba(230, 115, 55, 0.28);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 1px 1px rgba(230, 115, 55, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Composição abstrata ao fundo: círculos concêntricos, grid sutil e glow cobre */
+.result-editorial-card::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: 
+    radial-gradient(circle, rgba(233, 108, 50, 0.16) 0%, transparent 65%),
+    repeating-radial-gradient(circle, transparent 0, transparent 40px, rgba(233, 108, 50, 0.04) 41px, rgba(233, 108, 50, 0.04) 42px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.result-editorial-content {
+  position: relative;
+  z-index: 1;
+}
+
+.result-profile-editorial-name {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  color: var(--text-main);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.result-profile-editorial-tagline {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 2.25rem auto;
+  line-height: 1.6;
+}
+
+/* Placar Central Editorial */
+.score-editorial-box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 1.25rem 2.5rem;
+  background: rgba(18, 8, 5, 0.8);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 25px rgba(233, 108, 50, 0.08);
+}
+
+.score-editorial-numbers {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: 'Oswald', sans-serif;
+}
+
+.score-number-giant {
+  font-size: clamp(4.2rem, 9vw, 5.8rem);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--accent-copper);
+  text-shadow: 0 0 30px rgba(233, 108, 50, 0.35);
+}
+
+.score-max-giant {
+  font-size: 1.6rem;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.score-editorial-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  color: var(--metal-gold-aged);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.profile-editorial-summary-box {
+  background: rgba(30, 14, 8, 0.5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.6rem;
+  text-align: left;
+  max-width: 660px;
+  margin: 0 auto;
+  font-size: 0.98rem;
+  color: #E2DBD2;
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   2. GRÁFICO RADAR & DIMENSÕES INDIVIDUAIS
+   -------------------------------------------------------------------------- */
+.dimensions-editorial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 800px) {
+  .dimensions-editorial-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* Card do Radar SVG */
+.radar-editorial-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.radar-editorial-card svg {
+  width: 100%;
+  max-width: 310px;
+  height: auto;
+  overflow: visible;
+}
+
+/* Lista Individual das Dimensões */
+.dimensions-editorial-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.dim-editorial-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all var(--duration-fast);
+}
+
+.dim-editorial-item:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
+  transform: translateX(2px);
+}
+
+.dim-editorial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.dim-editorial-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.dim-editorial-score {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--accent-copper);
+}
+
+.dim-copper-track {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-wood-dark);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.dim-copper-fill {
+  height: 100%;
+  background: var(--grad-copper);
+  border-radius: var(--radius-full);
+  transition: width 1s var(--ease-smooth);
+}
+
+.dim-editorial-desc {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+/* --------------------------------------------------------------------------
+   3. CARDS DE INSIGHTS (01 PONTO FORTE, 02 PONTO DE EVOLUÇÃO, 03 ATENÇÃO)
+   -------------------------------------------------------------------------- */
+.insights-editorial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .insights-editorial-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.insight-editorial-card {
+  padding: 1.75rem 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+  transition: transform var(--duration-fast), border-color var(--duration-fast);
+}
+
+.insight-editorial-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+}
+
+.insight-editorial-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-copper);
+  letter-spacing: 0.12em;
+}
+
+.insight-editorial-type {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--metal-gold-aged);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.insight-editorial-title {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  color: var(--text-main);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.insight-editorial-body {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   4. MAPA DE EVOLUÇÃO MONOCROMÁTICO (01 MANTENHA, 02 DESENVOLVA, 03 PRIORIZE)
+   -------------------------------------------------------------------------- */
+.evolution-editorial-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .evolution-editorial-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.evolution-editorial-col {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.evolution-col-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.evolution-col-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-copper);
+}
+
+.evolution-col-heading {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.evolution-items-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.evolution-box-item {
+  background: rgba(18, 8, 5, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.evolution-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.evolution-box-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.evolution-box-score {
+  font-family: 'Oswald', monospace;
+  font-size: 0.88rem;
+  color: var(--accent-copper);
+  font-weight: 700;
+}
+
+.evolution-box-text {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   5. FINAL CTA EDITORIAL
+   -------------------------------------------------------------------------- */
+.final-cta-editorial-card {
+  padding: 3.5rem 2rem;
+  text-align: center;
+  background: radial-gradient(circle at 50% 0%, rgba(233, 108, 50, 0.16) 0%, rgba(18, 8, 5, 0.85) 75%);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+}
+
+.final-cta-editorial-quote {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  color: var(--text-main);
+  max-width: 680px;
+  text-transform: uppercase;
+}
+
+.final-cta-editorial-sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 540px;
+  line-height: 1.6;
+}
+
+.final-buttons-editorial-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  width: 100%;
+  max-width: 480px;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 540px) {
+  .final-buttons-editorial-row {
+    flex-direction: row;
+  }
+  .final-buttons-editorial-row .btn {
+    flex: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. MODAL DE COMPARTILHAMENTO EDITORIAL
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 2, 2, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.share-card-editorial {
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(165deg, #1A0C07 0%, #080403 100%);
+  border: 1px solid rgba(233, 108, 50, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.85rem;
+  text-align: center;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px -5px rgba(233, 108, 50, 0.3);
+  position: relative;
+}
+
+.share-card-editorial .card-brand {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--metal-gold-aged);
+  margin-bottom: 1.5rem;
+}
+
+.share-card-editorial .card-profile-title {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  font-size: 2.2rem;
+  color: var(--accent-copper);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+
+.share-card-editorial .card-score-box {
+  background: rgba(12, 6, 5, 0.8);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.share-card-editorial .card-score-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent-copper);
+  line-height: 1;
+}
+
+.share-card-editorial .card-invite-txt {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+  font-style: italic;
+}
