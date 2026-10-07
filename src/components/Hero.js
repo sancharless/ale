@@ -1,6 +1,6 @@
 /**
- * Componente Hero — Estética Editorial Cobre & Ampulheta de Decisão
- * Layout split no desktop: tipografia editorial forte à esquerda e fotografia cinematográfica da ampulheta à direita
+ * Componente Hero — Estética Editorial com Logo Oficial Alê
+ * Posição refinada do texto principal e layout mobile-first com a marca oficial
  */
 
 export function renderHero({ onStart }) {
@@ -8,12 +8,22 @@ export function renderHero({ onStart }) {
   container.className = 'hero-section-editorial animate-slide-up';
 
   container.innerHTML = `
+    <!-- Topo Editorial com a Logo Oficial Alê -->
+    <div class="hero-brand-top">
+      <img 
+        src="/images/logo-ale-oficial.png" 
+        alt="Alê — Os Números Falam. O Conhecimento Traduz."
+        class="hero-brand-logo-img"
+        loading="eager"
+      />
+    </div>
+
     <div class="hero-split-grid">
-      <!-- Coluna Esquerda: Conteúdo Editorial -->
+      <!-- Coluna de Texto: Hierarquia e Alinhamento Otimizados -->
       <div class="hero-content-col">
         <div class="section-meta-label">
           <span class="label-num">01</span>
-          <span>AVALIAÇÃO EXECUTIVA DE PERFIL DECISÓRIO</span>
+          <span>DIAGNÓSTICO EXECUTIVO DE PERFIL</span>
         </div>
 
         <h1 class="hero-editorial-title">
@@ -21,18 +31,19 @@ export function renderHero({ onStart }) {
         </h1>
 
         <p class="hero-editorial-sub">
-          Descubra o seu perfil através de uma análise aprofundada sobre comportamento, disciplina, gestão de risco, probabilidade e método.
+          Uma análise personalizada sobre comportamento, disciplina, gestão de risco, probabilidade e processo decisório.
         </p>
 
+        <!-- Indicadores Rápidos -->
         <div class="hero-indicators-bar">
           <div class="ind-pill">
             <span class="ind-pill-num">20</span>
-            <span class="ind-pill-txt">SITUAÇÕES REAIS</span>
+            <span class="ind-pill-txt">SITUAÇÕES</span>
           </div>
           <div class="ind-pill-divider"></div>
           <div class="ind-pill">
             <span class="ind-pill-num">05</span>
-            <span class="ind-pill-txt">DIMENSÕES ANALISADAS</span>
+            <span class="ind-pill-txt">DIMENSÕES</span>
           </div>
           <div class="ind-pill-divider"></div>
           <div class="ind-pill">
@@ -41,6 +52,7 @@ export function renderHero({ onStart }) {
           </div>
         </div>
 
+        <!-- Bloco de Ação / CTA -->
         <div class="hero-cta-wrapper">
           <button id="btn-hero-start" class="btn btn-primary" type="button">
             <span>INICIAR MEU DIAGNÓSTICO</span>
@@ -60,7 +72,7 @@ export function renderHero({ onStart }) {
         </div>
       </div>
 
-      <!-- Coluna Direita: Fotografia Cinematográfica da Ampulheta -->
+      <!-- Coluna Visual: Fotografia Conceitual com Glow Suave -->
       <div class="hero-visual-col">
         <div class="visual-frame-container">
           <div class="visual-glow-halo"></div>

@@ -2,6 +2,7 @@ import { QUESTIONS, BLOCKS } from './data/questions.js';
 import { calculateAssessmentResults } from './data/scoring.js';
 import { generateSmartInsights } from './data/insights.js';
 
+import { renderNavbar } from './components/Navbar.js';
 import { renderHero } from './components/Hero.js';
 import { renderIntroAssessment } from './components/IntroAssessment.js';
 import { renderProgressHeader } from './components/ProgressHeader.js';
@@ -27,7 +28,7 @@ class AssessmentApp {
       results: null,
       insights: null,
       pendingBlock: null,
-      shownBlocks: new Set([1]) // Bloco 1 já inicia após a introdução
+      shownBlocks: new Set([1])
     };
 
     this.init();
@@ -46,6 +47,18 @@ class AssessmentApp {
   render() {
     if (!this.appEl) return;
     this.appEl.innerHTML = '';
+
+    // Renderizar Navbar fixa com a logo oficial Alê em todas as telas
+    const navbar = renderNavbar({
+      onLogoClick: () => {
+        if (this.state.step !== 'hero') {
+          if (confirm('Deseja retornar ao início do diagnóstico?')) {
+            this.handleRestart();
+          }
+        }
+      }
+    });
+    this.appEl.appendChild(navbar);
 
     const { step } = this.state;
 
@@ -90,7 +103,10 @@ class AssessmentApp {
         this.setState({ step: 'intro' });
       }
     });
-    this.appEl.appendChild(hero);
+    const mainContainer = document.createElement('main');
+    mainContainer.className = 'container';
+    mainContainer.appendChild(hero);
+    this.appEl.appendChild(mainContainer);
   }
 
   // 2. Tela de Introdução Reflexiva
@@ -136,7 +152,7 @@ class AssessmentApp {
     });
 
     const mainContainer = document.createElement('main');
-    mainContainer.className = 'container';
+    mainContainer.className = 'container question-main-container';
 
     // Card da Questão com alternativas
     const questionCard = renderQuestionCard({
@@ -166,7 +182,7 @@ class AssessmentApp {
       return;
     }
 
-    // Verificar se a próxima questão pertence a um novo bloco que ainda não foi apresentado
+    // Verificar transição de bloco
     const nextQ = QUESTIONS[nextIndex];
     if (nextQ && !this.state.shownBlocks.has(nextQ.blockId)) {
       const blockToPresent = BLOCKS.find(b => b.id === nextQ.blockId);
@@ -196,7 +212,6 @@ class AssessmentApp {
   }
 
   finishQuestions() {
-    // Calcular resultados
     const results = calculateAssessmentResults(this.state.answers);
     const insights = generateSmartInsights(results.dimensions, results.overallScore);
 
@@ -211,7 +226,6 @@ class AssessmentApp {
   renderProcessingView() {
     const processing = renderProcessingScreen({
       onComplete: () => {
-        // Redireciona para a captura de lead antes do resultado final
         this.setState({ step: 'lead' });
       }
     });
