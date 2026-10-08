@@ -15,7 +15,7 @@ export function renderNavbar({ onLogoClick }) {
           class="navbar-logo-symbol"
         />
         <div class="navbar-brand-divider"></div>
-        <span class="navbar-brand-tag">DIAGNÓSTICO DECISÓRIO</span>
+        <span class="navbar-brand-tag">ANÁLISE DE DECISÕES</span>
       </div>
 
       <div class="navbar-right-badge">

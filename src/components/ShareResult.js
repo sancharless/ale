@@ -13,7 +13,7 @@ export function renderShareModal({ profile, overallScore, onClose }) {
   overlay.innerHTML = `
     <div class="share-card-editorial animate-slide-up">
       <div class="card-brand">
-        DIAGNÓSTICO DE PERFIL DECISÓRIO
+        ANÁLISE DE DECISÕES
       </div>
 
       <div style="font-family: 'Oswald', sans-serif; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.4rem;">
