@@ -84,7 +84,7 @@ export function renderHero({ onStart }) {
           />
           <div class="visual-badge-floating">
             <span class="floating-badge-dot"></span>
-            <span>TEMPO • DISCIPLINA • NÚMEROS</span>
+            <span>PROBABILIDADE • COMPORTAMENTO • TREINAMENTO</span>
           </div>
         </div>
       </div>

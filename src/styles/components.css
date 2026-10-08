@@ -286,9 +286,10 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: 0.68rem;
+  font-size: clamp(0.56rem, 2vw, 0.68rem);
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
+  text-align: center;
   color: var(--text-main);
   z-index: 2;
 }
