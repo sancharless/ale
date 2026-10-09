@@ -31,6 +31,16 @@ export function renderResultDashboard({ results, insights, onRestart, leadData }
 
   heroCard.innerHTML = `
     <div class="result-editorial-content">
+      <!-- Selo de Autenticidade da Avaliação Oficial Alê -->
+      <div class="result-brand-seal">
+        <img 
+          src="/images/logo-ale-oficial.png" 
+          alt="Alê Logo Oficial" 
+          class="result-brand-seal-img" 
+        />
+        <span class="result-brand-seal-tag">DIAGNÓSTICO OFICIAL • MATURIDADE DECISÓRIA</span>
+      </div>
+
       <div class="section-meta-label" style="justify-content: center;">
         <span class="label-num">${profile.code}</span>
         <span>RELATÓRIO DE PERFORMANCE PESSOAL</span>

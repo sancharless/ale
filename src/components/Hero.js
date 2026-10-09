@@ -8,19 +8,52 @@ export function renderHero({ onStart }) {
   container.className = 'hero-section-editorial animate-slide-up';
 
   container.innerHTML = `
-    <!-- Topo Editorial com a Logo Oficial Alê -->
-    <div class="hero-brand-top">
-      <img 
-        src="/images/logo-ale-oficial.png" 
-        alt="Alê — Os Números Falam. O Conhecimento Traduz."
-        class="hero-brand-logo-img"
-        loading="eager"
-      />
-    </div>
-
     <div class="hero-split-grid">
       <!-- Coluna de Texto: Hierarquia e Alinhamento Otimizados -->
       <div class="hero-content-col">
+        <!-- Showcase Impactante com a Logo Oficial Alê Animada -->
+        <div class="hero-brand-showcase" id="hero-brand-showcase" role="region" aria-label="Logo Oficial Alê">
+          <!-- Aura de Luz Radiante em Cobre & Âmbar -->
+          <div class="hero-logo-aura" aria-hidden="true"></div>
+          
+          <!-- Geometria Numérica e Órbitas Sutis -->
+          <div class="hero-logo-geometry" aria-hidden="true">
+            <div class="logo-geom-ring geom-ring-outer"></div>
+            <div class="logo-geom-ring geom-ring-inner"></div>
+            <div class="logo-geom-particle p1"></div>
+            <div class="logo-geom-particle p2"></div>
+            <div class="logo-geom-particle p3"></div>
+          </div>
+
+          <!-- Palco 3D Interativo da Logo -->
+          <div class="hero-logo-stage" id="hero-logo-stage" title="Alê — Os Números Falam. O Conhecimento Traduz.">
+            <div class="hero-logo-wrapper">
+              <img 
+                src="/images/logo-ale-oficial.png" 
+                alt="Alê — Os Números Falam. O Conhecimento Traduz."
+                class="hero-brand-logo-img"
+                id="hero-logo-image"
+                loading="eager"
+              />
+              <!-- Varredura de Brilho Metálico Cobre (Sheen Glint) -->
+              <div class="hero-logo-sheen-sweep" aria-hidden="true"></div>
+              <!-- Spotlight Beam Interativo (segue o cursor na logo) -->
+              <div class="hero-logo-spotlight-beam" id="hero-logo-spotlight" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <!-- Assinatura Editorial da Marca -->
+          <div class="hero-brand-signature">
+            <span class="sig-line sig-line-left"></span>
+            <span class="sig-tagline">
+              <span>OS NÚMEROS FALAM</span>
+              <span class="sig-diamond">✦</span>
+              <span>O CONHECIMENTO TRADUZ</span>
+            </span>
+            <span class="sig-line sig-line-right"></span>
+          </div>
+        </div>
+
         <div class="section-meta-label">
           <span class="label-num">01</span>
           <span>DIAGNÓSTICO EXECUTIVO DE PERFIL</span>
@@ -95,6 +128,76 @@ export function renderHero({ onStart }) {
   btnStart.addEventListener('click', () => {
     onStart();
   });
+
+  // Lógica Interativa da Logo Oficial: Tilt 3D com LERP, Spotlight Especular e Pulso
+  const showcase = container.querySelector('#hero-brand-showcase');
+  const stage = container.querySelector('#hero-logo-stage');
+
+  if (showcase && stage) {
+    let bounds = null;
+    let isHovering = false;
+    let rafId = null;
+    let targetRotateX = 0;
+    let targetRotateY = 0;
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+
+    const updateTilt = () => {
+      // Interpolação suave (LERP) para movimento sedoso
+      currentRotateX += (targetRotateX - currentRotateX) * 0.12;
+      currentRotateY += (targetRotateY - currentRotateY) * 0.12;
+
+      stage.style.transform = `perspective(1000px) rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg) scale3d(${isHovering ? 1.04 : 1}, ${isHovering ? 1.04 : 1}, 1)`;
+
+      if (isHovering || Math.abs(currentRotateX) > 0.05 || Math.abs(currentRotateY) > 0.05) {
+        rafId = requestAnimationFrame(updateTilt);
+      } else {
+        stage.style.transform = '';
+        rafId = null;
+      }
+    };
+
+    showcase.addEventListener('mouseenter', () => {
+      bounds = showcase.getBoundingClientRect();
+      isHovering = true;
+      if (!rafId) rafId = requestAnimationFrame(updateTilt);
+    });
+
+    showcase.addEventListener('mousemove', (e) => {
+      if (!bounds) bounds = showcase.getBoundingClientRect();
+      const x = e.clientX - bounds.left;
+      const y = e.clientY - bounds.top;
+      const centerX = bounds.width / 2;
+      const centerY = bounds.height / 2;
+
+      // Ângulos suaves de inclinação 3D (-10 a +10 graus)
+      targetRotateY = ((x - centerX) / centerX) * 11;
+      targetRotateX = -((y - centerY) / centerY) * 11;
+
+      // Posição do feixe especular que acompanha o cursor
+      const percentX = (x / bounds.width) * 100;
+      const percentY = (y / bounds.height) * 100;
+      stage.style.setProperty('--mouse-x', `${percentX.toFixed(1)}%`);
+      stage.style.setProperty('--mouse-y', `${percentY.toFixed(1)}%`);
+
+      if (!rafId) rafId = requestAnimationFrame(updateTilt);
+    });
+
+    showcase.addEventListener('mouseleave', () => {
+      isHovering = false;
+      targetRotateX = 0;
+      targetRotateY = 0;
+      bounds = null;
+    });
+
+    // Toque / clique com efeito de pulso e flare
+    showcase.addEventListener('click', () => {
+      stage.classList.remove('clicked');
+      void stage.offsetWidth; // Forçar reflow para reiniciar animação
+      stage.classList.add('clicked');
+      setTimeout(() => stage.classList.remove('clicked'), 600);
+    });
+  }
 
   return container;
 }

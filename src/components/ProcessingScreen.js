@@ -18,11 +18,13 @@ export function renderProcessingScreen({ onComplete }) {
     <div class="processing-orbit-wrapper">
       <div class="orbit-ring-copper"></div>
       <div class="orbit-ring-bronze"></div>
-      <div class="orbit-core-copper">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
+      <div class="processing-logo-core">
+        <img 
+          src="/images/logo-ale-oficial.png" 
+          alt="Alê Logo Oficial" 
+          class="processing-logo-img" 
+        />
+        <div class="processing-logo-glow" aria-hidden="true"></div>
       </div>
     </div>
 

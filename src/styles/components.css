@@ -30,12 +30,62 @@
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
+  transition: transform 0.25s var(--ease-smooth);
+}
+
+.navbar-brand:hover {
+  transform: translateY(-1px);
+}
+
+.navbar-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navbar-logo-symbol {
-  height: 24px;
+  height: 28px;
   width: auto;
-  filter: drop-shadow(0 0 6px rgba(233, 108, 50, 0.35));
+  max-width: 65px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(233, 108, 50, 0.45));
+  transition: filter 0.3s var(--ease-smooth), transform 0.3s var(--ease-smooth);
+}
+
+.navbar-brand:hover .navbar-logo-symbol {
+  filter: drop-shadow(0 0 16px rgba(240, 120, 56, 0.85)) brightness(1.12);
+  transform: scale(1.06);
+}
+
+.navbar-logo-glint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: url('/images/logo-ale-oficial.png');
+  mask-image: url('/images/logo-ale-oficial.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 240, 210, 0.95) 50%, transparent 70%);
+  background-size: 200% 100%;
+  background-position: -100% 0;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-brand:hover .navbar-logo-glint {
+  opacity: 1;
+  animation: navbarSheen 1.2s ease-in-out forwards;
+}
+
+@keyframes navbarSheen {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .navbar-brand-divider {
@@ -81,38 +131,366 @@
 }
 
 /* --------------------------------------------------------------------------
-   1. HERO EDITORIAL SECTION COM LOGO OFICIAL
+   1. HERO EDITORIAL SECTION COM LOGO OFICIAL DE ALTO IMPACTO
    -------------------------------------------------------------------------- */
 .hero-section-editorial {
   width: 100%;
-  padding: 1.5rem 0 3rem 0;
+  padding: 1rem 0 3rem 0;
   display: flex;
   flex-direction: column;
 }
 
-.hero-brand-top {
+/* SHOWCASE PRINCIPAL DA MARCA ALÊ */
+.hero-brand-showcase {
+  position: relative;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.hero-brand-logo-img {
-  max-width: 290px;
+  justify-content: center;
+  margin: 0 auto 1.75rem auto;
+  padding: 0.75rem 0.5rem;
   width: 100%;
-  height: auto;
-  filter: drop-shadow(0 12px 28px rgba(233, 108, 50, 0.28));
-  transition: transform 0.4s var(--ease-smooth);
+  max-width: 500px;
+  perspective: 1200px;
+  cursor: pointer;
+  user-select: none;
+  animation: logoCinematicEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @media (min-width: 900px) {
-  .hero-brand-top {
-    justify-content: flex-start;
-    margin-bottom: 2.25rem;
+  .hero-brand-showcase {
+    margin: 0 0 1.75rem 0;
+    align-items: flex-start;
+    padding-left: 0;
+    padding-top: 0;
   }
+}
+
+/* AURA RADIANTE & HALO DE LUZ COBRE / ÂMBAR */
+.hero-logo-aura {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 180px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(233, 108, 50, 0.36) 0%,
+    rgba(183, 104, 50, 0.18) 45%,
+    rgba(74, 29, 14, 0.08) 65%,
+    transparent 80%
+  );
+  filter: blur(24px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  animation: logoAuraPulse 4s ease-in-out infinite alternate;
+}
+
+@media (min-width: 900px) {
+  .hero-logo-aura {
+    left: 160px;
+    top: 50%;
+  }
+}
+
+/* GEOMETRIA NUMÉRICA E ÓRBITAS SUTIS */
+.hero-logo-geometry {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 330px;
+  height: 170px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (min-width: 900px) {
+  .hero-logo-geometry {
+    left: 160px;
+    top: 50%;
+  }
+}
+
+.logo-geom-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.geom-ring-outer {
+  width: 310px;
+  height: 145px;
+  border: 1px dashed rgba(230, 115, 55, 0.24);
+  transform: translate(-50%, -50%) rotate(-4deg);
+  animation: geomRingRotate 32s linear infinite;
+}
+
+.geom-ring-inner {
+  width: 240px;
+  height: 105px;
+  border: 1px solid rgba(215, 154, 98, 0.16);
+  transform: translate(-50%, -50%) rotate(6deg);
+  animation: geomRingRotateRev 26s linear infinite;
+}
+
+/* PARTÍCULAS METÁLICAS FLUTUANTES */
+.logo-geom-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--metal-gold-aged);
+  box-shadow: 0 0 10px rgba(240, 120, 56, 0.9);
+  pointer-events: none;
+}
+
+.logo-geom-particle.p1 {
+  width: 4px;
+  height: 4px;
+  top: 20%;
+  left: 14%;
+  animation: particleFloat1 6s ease-in-out infinite;
+}
+
+.logo-geom-particle.p2 {
+  width: 5px;
+  height: 5px;
+  top: 76%;
+  left: 84%;
+  background: var(--accent-copper-glow);
+  animation: particleFloat2 7s ease-in-out infinite;
+}
+
+.logo-geom-particle.p3 {
+  width: 3px;
+  height: 3px;
+  top: 10%;
+  left: 78%;
+  animation: particleFloat1 5s ease-in-out 1.5s infinite;
+}
+
+/* PALCO 3D INTERATIVO (CONTROLADO VIA JAVASCRIPT & CSS) */
+.hero-logo-stage {
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* WRAPPER COM LEVITAÇÃO MAGNÉTICA */
+.hero-logo-wrapper {
+  position: relative;
+  display: inline-block;
+  padding: 0.35rem 0.6rem;
+  animation: logoLevitate 5s ease-in-out infinite alternate;
+}
+
+/* IMAGEM OFICIAL ALÊ EM ALTA DEFINIÇÃO */
+.hero-brand-logo-img {
+  display: block;
+  width: 100%;
+  max-width: 295px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.75))
+          drop-shadow(0 8px 18px rgba(233, 108, 50, 0.36));
+  transition: filter 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth);
+}
+
+@media (min-width: 900px) {
   .hero-brand-logo-img {
-    max-width: 320px;
+    max-width: 350px;
+  }
+}
+
+/* VARREDURA DE BRILHO METÁLICO (SHEEN GLINT) */
+.hero-logo-sheen-sweep {
+  position: absolute;
+  inset: 0.35rem 0.6rem;
+  pointer-events: none;
+  -webkit-mask-image: url('/images/logo-ale-oficial.png');
+  mask-image: url('/images/logo-ale-oficial.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: linear-gradient(
+    108deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 235, 200, 0.18) 43%,
+    rgba(255, 255, 255, 0.88) 50%,
+    rgba(240, 120, 56, 0.45) 57%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 260% 100%;
+  background-position: -140% 0;
+  mix-blend-mode: screen;
+  opacity: 0.95;
+  animation: logoSheenSweep 5.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* SPOTLIGHT ESPECULAR INTERATIVO (SEGUE O CURSOR DO MOUSE) */
+.hero-logo-spotlight-beam {
+  position: absolute;
+  inset: 0.35rem 0.6rem;
+  pointer-events: none;
+  -webkit-mask-image: url('/images/logo-ale-oficial.png');
+  mask-image: url('/images/logo-ale-oficial.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 245, 225, 0.72) 0%,
+    rgba(233, 108, 50, 0.35) 30%,
+    transparent 62%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-brand-showcase:hover .hero-logo-spotlight-beam {
+  opacity: 1;
+}
+
+.hero-brand-showcase:hover .hero-brand-logo-img {
+  filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.82))
+          drop-shadow(0 10px 26px rgba(240, 120, 56, 0.58));
+}
+
+/* PULSO AO CLICAR */
+.hero-logo-stage.clicked {
+  animation: logoClickPulse 0.6s var(--ease-smooth);
+}
+
+/* ASSINATURA EDITORIAL DE MARCA */
+.hero-brand-signature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.55rem;
+  width: 100%;
+  max-width: 350px;
+}
+
+.sig-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(230, 115, 55, 0.35));
+}
+
+.sig-line-right {
+  background: linear-gradient(90deg, rgba(230, 115, 55, 0.35), transparent);
+}
+
+.sig-tagline {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--metal-gold-aged);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.sig-diamond {
+  color: var(--accent-copper);
+  font-size: 0.58rem;
+  animation: pulseCopper 2s infinite ease-in-out;
+}
+
+/* KEYFRAMES ESPECÍFICOS DO SHOWCASE */
+@keyframes logoLevitate {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(0.4deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes logoSheenSweep {
+  0%, 15% {
+    background-position: -140% 0;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  48% {
+    background-position: 240% 0;
+    opacity: 0.95;
+  }
+  52%, 100% {
+    background-position: 240% 0;
+    opacity: 0;
+  }
+}
+
+@keyframes logoAuraPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.94);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+@keyframes geomRingRotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes geomRingRotateRev {
+  0% { transform: translate(-50%, -50%) rotate(360deg); }
+  100% { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+@keyframes particleFloat1 {
+  0%, 100% { transform: translateY(0) scale(0.8); opacity: 0.4; }
+  50% { transform: translateY(-8px) scale(1.2); opacity: 0.9; }
+}
+
+@keyframes particleFloat2 {
+  0%, 100% { transform: translateY(0) scale(1.1); opacity: 0.8; }
+  50% { transform: translateY(6px) scale(0.7); opacity: 0.3; }
+}
+
+@keyframes logoClickPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  35% { transform: scale(0.96) translateY(2px); filter: brightness(1.25); }
+  65% { transform: scale(1.04) translateY(-3px); filter: brightness(1.35); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes logoCinematicEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -665,6 +1043,47 @@
   align-items: center;
   justify-content: center;
   color: #120704;
+}
+
+.processing-logo-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.processing-logo-img {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(233, 108, 50, 0.7));
+  animation: logoHeartbeat 1.9s infinite ease-in-out;
+}
+
+.processing-logo-glow {
+  position: absolute;
+  inset: 5px;
+  background: radial-gradient(circle, rgba(233, 108, 50, 0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: pulseCopper 1.9s infinite ease-in-out;
+}
+
+@keyframes logoHeartbeat {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(233, 108, 50, 0.5));
+  }
+  50% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 18px rgba(240, 120, 56, 0.95)) brightness(1.2);
+  }
 }
 
 .processing-step-editorial {

@@ -8,12 +8,15 @@ export function renderNavbar({ onLogoClick }) {
 
   nav.innerHTML = `
     <div class="navbar-container">
-      <div class="navbar-brand" id="navbar-brand-link" style="cursor: pointer;">
-        <img 
-          src="/images/logo-ale-simbolo.png" 
-          alt="Alê Logo Oficial" 
-          class="navbar-logo-symbol"
-        />
+      <div class="navbar-brand" id="navbar-brand-link" style="cursor: pointer;" title="Voltar ao início">
+        <div class="navbar-logo-wrap">
+          <img 
+            src="/images/logo-ale-oficial.png" 
+            alt="Alê Logo Oficial" 
+            class="navbar-logo-symbol"
+          />
+          <div class="navbar-logo-glint" aria-hidden="true"></div>
+        </div>
         <div class="navbar-brand-divider"></div>
         <span class="navbar-brand-tag">ANÁLISE DE DECISÕES</span>
       </div>

@@ -48,6 +48,35 @@
   z-index: 1;
 }
 
+.result-brand-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 0.4rem 1.15rem;
+  background: rgba(41, 17, 10, 0.65);
+  border: 1px solid rgba(230, 115, 55, 0.28);
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.result-brand-seal-img {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(233, 108, 50, 0.5));
+}
+
+.result-brand-seal-tag {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: var(--metal-gold-aged);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
 .result-profile-editorial-name {
   font-family: 'Bebas Neue', 'Oswald', sans-serif;
   font-size: clamp(2.4rem, 5.5vw, 4rem);
