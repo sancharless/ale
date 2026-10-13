@@ -626,9 +626,103 @@
   position: relative;
   width: 100%;
   max-width: 400px;
+  aspect-ratio: 400 / 380;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(230, 115, 55, 0.35);
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(230, 115, 55, 0.35);
+  background: #0C0605;
+}
+
+.hourglass-interactive-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.hourglass-interactive-card:hover {
+  box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.98), 0 0 25px rgba(233, 108, 50, 0.45), 0 0 1px 1px rgba(240, 120, 56, 0.7);
+}
+
+.hourglass-bg-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hourglass-math-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.hourglass-apparatus {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hourglass-canvas {
+  width: auto;
+  height: 88%;
+  max-width: 90%;
+  max-height: 330px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.88));
+}
+
+/* Varredura especular que passa pelo vidro periodicamente */
+.hourglass-specular-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 230, 180, 0.1) 48%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(230, 115, 55, 0.15) 53%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  background-position: -130% 0;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: screen;
+  animation: hourglassGlint 7s infinite ease-in-out;
+}
+
+@keyframes hourglassGlint {
+  0%, 20% {
+    background-position: -130% 0;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  45% {
+    background-position: 230% 0;
+    opacity: 0.9;
+  }
+  50%, 100% {
+    background-position: 230% 0;
+    opacity: 0;
+  }
 }
 
 .visual-glow-halo {
@@ -669,7 +763,7 @@
   letter-spacing: 0.08em;
   text-align: center;
   color: var(--text-main);
-  z-index: 2;
+  z-index: 5;
 }
 
 .floating-badge-dot {
