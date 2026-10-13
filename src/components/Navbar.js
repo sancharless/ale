@@ -17,13 +17,6 @@ export function renderNavbar({ onLogoClick }) {
           />
           <div class="navbar-logo-glint" aria-hidden="true"></div>
         </div>
-        <div class="navbar-brand-divider"></div>
-        <span class="navbar-brand-tag">ANÁLISE DE DECISÕES</span>
-      </div>
-
-      <div class="navbar-right-badge">
-        <span class="nav-pulse-dot"></span>
-        <span class="nav-status-txt">AVALIAÇÃO EXECUTIVA</span>
       </div>
     </div>
   `;
