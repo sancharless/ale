@@ -56,11 +56,6 @@ export function renderHero({ onStart }) {
           </div>
         </div>
 
-        <div class="section-meta-label">
-          <span class="label-num">01</span>
-          <span>DIAGNÓSTICO EXECUTIVO DE PERFIL</span>
-        </div>
-
         <h1 class="hero-editorial-title">
           COMO VOCÊ TOMA <span class="text-highlight-copper">DECISÕES</span> DIANTE DOS NÚMEROS?
         </h1>
