@@ -11,6 +11,7 @@ import { renderSectionTransition } from './components/SectionTransition.js';
 import { renderProcessingScreen } from './components/ProcessingScreen.js';
 import { renderLeadCapture } from './components/LeadCapture.js';
 import { renderResultDashboard } from './components/ResultDashboard.js';
+import { renderBrandIntro } from './components/BrandIntro.js';
 
 /**
  * Orquestrador da Aplicação Web de Diagnóstico de Perfil
@@ -36,6 +37,17 @@ class AssessmentApp {
 
   init() {
     this.render();
+    this.playBrandIntro();
+  }
+
+  playBrandIntro() {
+    const existing = document.getElementById('brand-intro-overlay');
+    if (existing) existing.remove();
+
+    const intro = renderBrandIntro({
+      duration: 2800
+    });
+    document.body.appendChild(intro);
   }
 
   setState(partialState) {
@@ -55,6 +67,8 @@ class AssessmentApp {
           if (confirm('Deseja retornar ao início do diagnóstico?')) {
             this.handleRestart();
           }
+        } else {
+          this.playBrandIntro();
         }
       }
     });

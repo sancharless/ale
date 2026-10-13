@@ -1276,3 +1276,453 @@
 .form-checkbox-editorial a {
   color: var(--accent-copper);
 }
+
+/* --------------------------------------------------------------------------
+   BRAND INTRO SCREEN — ABERTURA CINEMATOGRÁFICA COM A LOGO OFICIAL ALÊ
+   -------------------------------------------------------------------------- */
+.brand-intro-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #060201;
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+  user-select: none;
+}
+
+.brand-intro-screen.intro-leaving {
+  opacity: 0;
+  transform: scale(1.04);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+/* Backdrop com vinheta e atmosfera */
+.brand-intro-backdrop {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(233, 108, 50, 0.14) 0%, rgba(12, 6, 4, 0.85) 55%, #050201 100%),
+    radial-gradient(ellipse at 50% 0%, rgba(215, 154, 98, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Aura e Feixe Radiante Central */
+.brand-intro-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 280px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(240, 120, 56, 0.42) 0%,
+    rgba(183, 104, 50, 0.22) 40%,
+    rgba(74, 29, 14, 0.1) 68%,
+    transparent 80%
+  );
+  filter: blur(50px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  animation: introAuraPulse 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes introAuraPulse {
+  0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* Geometria Matemática e Órbitas */
+.brand-intro-geometry {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.intro-geom-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ring-outer {
+  width: 460px;
+  height: 240px;
+  border: 1px dashed rgba(230, 115, 55, 0.25);
+  transform: rotate(-10deg);
+  animation: introRingSpin 40s linear infinite;
+}
+
+.ring-mid {
+  width: 380px;
+  height: 190px;
+  border: 1px solid rgba(215, 154, 98, 0.18);
+  transform: rotate(14deg);
+  animation: introRingSpinRev 32s linear infinite;
+}
+
+.ring-inner {
+  width: 300px;
+  height: 140px;
+  border: 1px solid rgba(240, 120, 56, 0.12);
+  transform: rotate(-4deg);
+  animation: introRingSpin 24s linear infinite;
+}
+
+@keyframes introRingSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes introRingSpinRev {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.intro-sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--metal-gold-aged);
+  box-shadow: 0 0 12px rgba(240, 120, 56, 0.95);
+  pointer-events: none;
+}
+
+.intro-sparkle.s1 { width: 5px; height: 5px; top: 32%; left: 34%; animation: introSparkleGlow 2.4s ease-in-out infinite; }
+.intro-sparkle.s2 { width: 4px; height: 4px; top: 68%; left: 66%; animation: introSparkleGlow 2.8s ease-in-out infinite 0.4s; }
+.intro-sparkle.s3 { width: 6px; height: 6px; top: 28%; left: 68%; animation: introSparkleGlow 3.1s ease-in-out infinite 0.8s; }
+.intro-sparkle.s4 { width: 3px; height: 3px; top: 70%; left: 30%; animation: introSparkleGlow 2.1s ease-in-out infinite 1.2s; }
+
+@keyframes introSparkleGlow {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.intro-math-svg {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  max-width: 90vw;
+  max-height: 90vh;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* Conteúdo Central da Abertura */
+.brand-intro-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Palco da Logo */
+.brand-intro-logo-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  animation: introLogoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes introLogoReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.86) translateY(12px);
+    filter: blur(14px) brightness(0.6);
+  }
+  60% {
+    filter: blur(0px) brightness(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px) brightness(1);
+  }
+}
+
+.brand-intro-logo-glow {
+  position: absolute;
+  width: 220px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(240, 120, 56, 0.45) 0%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.brand-intro-logo-wrap {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+
+.brand-intro-logo-img {
+  width: 320px;
+  max-width: 82vw;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 25px rgba(233, 108, 50, 0.45));
+}
+
+/* Varredura Especular Dourada sobre a Logo */
+.brand-intro-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: url('/images/logo-ale-oficial.png');
+  mask-image: url('/images/logo-ale-oficial.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 235, 190, 0.3) 45%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(240, 120, 56, 0.6) 55%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 260% 100%;
+  background-position: -130% 0;
+  mix-blend-mode: screen;
+  animation: introSheenSweep 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  animation-delay: 0.4s;
+}
+
+@keyframes introSheenSweep {
+  0% {
+    background-position: -130% 0;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    background-position: 230% 0;
+    opacity: 1;
+  }
+  85%, 100% {
+    background-position: 230% 0;
+    opacity: 0;
+  }
+}
+
+/* Tagline com Revelação Sequencial */
+.brand-intro-tagline-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 2.2rem;
+  opacity: 0;
+  animation: introTaglineFade 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.65s;
+}
+
+@keyframes introTaglineFade {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    letter-spacing: 0.3em;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.intro-sig-divider {
+  flex: 1;
+  height: 1px;
+  max-width: 80px;
+}
+
+.intro-divider-left {
+  background: linear-gradient(90deg, transparent, rgba(230, 115, 55, 0.6));
+}
+
+.intro-divider-right {
+  background: linear-gradient(90deg, rgba(230, 115, 55, 0.6), transparent);
+}
+
+.intro-tagline-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  color: var(--metal-gold-aged);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-transform: uppercase;
+}
+
+.intro-tagline-diamond {
+  color: var(--accent-copper-glow);
+  font-size: 0.85rem;
+  animation: introDiamondSpin 4s ease-in-out infinite;
+}
+
+@keyframes introDiamondSpin {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  50% { transform: scale(1.3) rotate(90deg); opacity: 1; }
+}
+
+/* Barra de Status e Carregamento */
+.brand-intro-status-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 280px;
+  opacity: 0;
+  animation: introStatusFade 0.8s ease forwards;
+  animation-delay: 0.9s;
+}
+
+@keyframes introStatusFade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.intro-status-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.intro-pulse-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-copper);
+  box-shadow: 0 0 8px var(--accent-copper-glow);
+  animation: pulseCopper 1.4s infinite ease-in-out;
+}
+
+.intro-progress-bar-wrap {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.intro-progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-copper), var(--metal-gold-aged), #FFF);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(240, 120, 56, 0.85);
+  transition: width 0.05s linear;
+}
+
+/* Botão Pular Abertura */
+.brand-intro-skip-btn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(18, 8, 5, 0.7);
+  border: 1px solid rgba(230, 115, 55, 0.35);
+  color: var(--metal-gold-aged);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+  opacity: 0;
+  animation: introSkipFade 0.6s ease forwards;
+  animation-delay: 1.2s;
+}
+
+@keyframes introSkipFade {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 0.85; transform: translateY(0); }
+}
+
+.brand-intro-skip-btn:hover {
+  opacity: 1;
+  background: rgba(233, 108, 50, 0.22);
+  border-color: var(--accent-copper);
+  color: var(--text-main);
+  box-shadow: 0 0 16px rgba(240, 120, 56, 0.4);
+  transform: translateY(-1px);
+}
+
+.intro-skip-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.brand-intro-skip-btn:hover .intro-skip-arrow {
+  transform: translateX(3px);
+}
+
+@media (max-width: 600px) {
+  .brand-intro-logo-img {
+    width: 250px;
+  }
+  .brand-intro-tagline-wrap {
+    gap: 0.5rem;
+    margin-bottom: 1.8rem;
+  }
+  .intro-tagline-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    gap: 0.4rem;
+  }
+  .intro-sig-divider {
+    max-width: 40px;
+  }
+  .brand-intro-skip-btn {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.68rem;
+  }
+}
+
