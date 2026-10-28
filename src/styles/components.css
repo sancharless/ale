@@ -157,14 +157,6 @@
   animation: logoCinematicEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@media (min-width: 900px) {
-  .hero-brand-showcase {
-    margin: 0 0 1.75rem 0;
-    align-items: flex-start;
-    padding-left: 0;
-    padding-top: 0;
-  }
-}
 
 /* AURA RADIANTE & HALO DE LUZ COBRE / ÂMBAR */
 .hero-logo-aura {
@@ -495,25 +487,20 @@
 }
 
 .hero-split-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.25rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
-}
-
-@media (min-width: 900px) {
-  .hero-split-grid {
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 3.5rem;
-  }
 }
 
 .hero-content-col {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 /* Título e Texto Principal Reajustados */
@@ -530,11 +517,11 @@
 }
 
 .hero-editorial-sub {
-  font-size: clamp(0.98rem, 2.2vw, 1.1rem);
+  font-size: clamp(0.98rem, 2.2vw, 1.15rem);
   color: var(--text-muted);
   line-height: 1.6;
-  max-width: 540px;
-  margin-bottom: 1.75rem;
+  max-width: 580px;
+  margin: 0 auto 1.75rem auto;
 }
 
 /* Indicadores Rápidos Responsivos */
@@ -548,7 +535,7 @@
   background: rgba(30, 14, 8, 0.65);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto;
   backdrop-filter: var(--blur-card);
 }
 
@@ -595,9 +582,11 @@
 .hero-cta-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.85rem;
   width: 100%;
   max-width: 380px;
+  margin: 0 auto;
 }
 
 .hero-time-note {
@@ -607,12 +596,6 @@
   gap: 0.4rem;
   font-size: 0.82rem;
   color: var(--text-dim);
-}
-
-@media (min-width: 900px) {
-  .hero-time-note {
-    justify-content: flex-start;
-  }
 }
 
 /* Coluna Visual da Ampulheta */

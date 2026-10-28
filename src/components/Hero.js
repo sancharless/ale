@@ -1,5 +1,3 @@
-import { renderHourglassVisual } from './HourglassVisual.js';
-
 /**
  * Componente Hero — Estética Editorial com Logo Oficial Alê
  * Posição refinada do texto principal e layout mobile-first com a marca oficial
@@ -101,17 +99,8 @@ export function renderHero({ onStart }) {
           </div>
         </div>
       </div>
-
-      <!-- Coluna Visual: Ampulheta Viva do Tempo em Loop Contínuo -->
-      <div class="hero-visual-col" id="hero-visual-col"></div>
     </div>
   `;
-
-  // Montar o componente interativo da Ampulheta Viva com física de areia e rotação contínua
-  const visualCol = container.querySelector('#hero-visual-col');
-  if (visualCol) {
-    visualCol.appendChild(renderHourglassVisual());
-  }
 
   const btnStart = container.querySelector('#btn-hero-start');
   btnStart.addEventListener('click', () => {
