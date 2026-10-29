@@ -13,6 +13,7 @@ import { renderProcessingScreen } from './components/ProcessingScreen.js';
 import { renderLeadCapture } from './components/LeadCapture.js';
 import { renderResultDashboard } from './components/ResultDashboard.js';
 import { renderBrandIntro } from './components/BrandIntro.js';
+import { renderAdminDashboard } from './components/AdminDashboard.js';
 
 /**
  * Orquestrador da Aplicação Web de Diagnóstico de Perfil
@@ -23,7 +24,7 @@ class AssessmentApp {
 
     // Estado da Aplicação
     this.state = {
-      step: 'hero', // 'hero' | 'intro' | 'transition' | 'question' | 'processing' | 'lead' | 'result'
+      step: this.isAdminUrl() ? 'admin' : 'hero', // 'hero' | 'intro' | 'transition' | 'question' | 'processing' | 'lead' | 'result' | 'admin'
       currentQuestionIndex: 0,
       answers: {},
       leadData: null,
@@ -36,10 +37,34 @@ class AssessmentApp {
     this.init();
   }
 
+  isAdminUrl() {
+    if (typeof window === 'undefined') return false;
+    if (document.body?.dataset?.forceAdmin === 'true') return true;
+    const path = (window.location.pathname || '').toLowerCase();
+    const hash = (window.location.hash || '').toLowerCase();
+    const params = new URLSearchParams(window.location.search);
+    return (
+      path === '/admin' ||
+      path.startsWith('/admin/') ||
+      path.endsWith('/admin.html') ||
+      hash === '#admin' ||
+      hash.startsWith('#/admin') ||
+      params.has('admin')
+    );
+  }
+
   init() {
     this.render();
-    this.playBrandIntro();
+    if (this.state.step !== 'admin') {
+      this.playBrandIntro();
+    }
     supabaseClient.flushPendingSubmissions().catch(() => {});
+
+    window.addEventListener('hashchange', () => {
+      if (this.isAdminUrl() && this.state.step !== 'admin') {
+        this.setState({ step: 'admin' });
+      }
+    });
   }
 
   playBrandIntro() {
@@ -105,6 +130,10 @@ class AssessmentApp {
 
       case 'result':
         this.renderResultView();
+        break;
+
+      case 'admin':
+        this.renderAdminView();
         break;
 
       default:
@@ -283,6 +312,12 @@ class AssessmentApp {
     mainContainer.appendChild(dashboard);
 
     this.appEl.appendChild(mainContainer);
+  }
+
+  // 8. Painel Administrativo Exclusivo (/admin)
+  renderAdminView() {
+    const adminView = renderAdminDashboard();
+    this.appEl.appendChild(adminView);
   }
 
   handleRestart() {

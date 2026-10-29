@@ -237,7 +237,101 @@ export class SupabaseClient {
 
     return { flushed: flushedCount, remaining: remaining.length };
   }
+
+  /**
+   * Busca todos os cadastros e diagnósticos dos alunos no Supabase (para o Painel Admin)
+   */
+  async fetchDiagnosticSubmissions(limit = 500) {
+    // Tenta enviar eventuais pendentes locais antes de listar
+    await this.flushPendingSubmissions().catch(() => {});
+
+    if (!this.isConfigured()) {
+      return {
+        success: false,
+        data: this.getLocalFallbackSubmissions(),
+        message: 'Supabase não configurado.'
+      };
+    }
+
+    const endpoint = `${this.config.url}/rest/v1/diagnostic_submissions?select=*&order=created_at.desc&limit=${limit}`;
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: this.getHeaders()
+      });
+
+      if (!response.ok) {
+        let errorDetail = response.statusText;
+        try {
+          const errJson = await response.json();
+          errorDetail = errJson.message || errJson.details || response.statusText;
+        } catch {
+          // Ignora falha de parse
+        }
+        return {
+          success: false,
+          status: response.status,
+          data: this.getLocalFallbackSubmissions(),
+          message: errorDetail
+        };
+      }
+
+      const rows = await response.json();
+      return {
+        success: true,
+        data: Array.isArray(rows) ? rows : [],
+        message: 'Sincronizado com sucesso.'
+      };
+    } catch (err) {
+      return {
+        success: false,
+        data: this.getLocalFallbackSubmissions(),
+        message: err.message
+      };
+    }
+  }
+
+  /**
+   * Remove um cadastro do Supabase (caso o admin queira excluir um teste)
+   */
+  async deleteDiagnosticSubmission(id) {
+    if (!this.isConfigured() || !id) return false;
+
+    const endpoint = `${this.config.url}/rest/v1/diagnostic_submissions?id=eq.${encodeURIComponent(id)}`;
+    try {
+      const response = await fetch(endpoint, {
+        method: 'DELETE',
+        headers: this.getHeaders()
+      });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  getLocalFallbackSubmissions() {
+    const list = [];
+    try {
+      const pendingRaw = localStorage.getItem(PENDING_QUEUE_KEY);
+      if (pendingRaw) {
+        const parsed = JSON.parse(pendingRaw);
+        if (Array.isArray(parsed)) list.push(...parsed);
+      }
+      if (list.length === 0) {
+        const lastRaw = localStorage.getItem(LAST_SUBMISSION_KEY);
+        if (lastRaw) {
+          const parsedLast = JSON.parse(lastRaw);
+          if (parsedLast) list.push(parsedLast);
+        }
+      }
+    } catch {
+      // Ignora erro
+    }
+    return list;
+  }
 }
 
 export const supabaseClient = new SupabaseClient();
 export default supabaseClient;
+

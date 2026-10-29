@@ -52,7 +52,11 @@ CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_profile_id ON public.diagn
 CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_overall_score ON public.diagnostic_submissions (overall_score DESC);
 CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_created_at ON public.diagnostic_submissions (created_at DESC);
 
--- 4. Habilitar Row Level Security (RLS)
+-- 4. Garantir permissões na Data API para as roles anon e authenticated
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT SELECT, INSERT, UPDATE ON TABLE public.diagnostic_submissions TO anon, authenticated;
+
+-- 5. Habilitar Row Level Security (RLS)
 ALTER TABLE public.diagnostic_submissions ENABLE ROW LEVEL SECURITY;
 
 -- Limpar políticas anteriores caso o script seja re-executado
@@ -89,3 +93,4 @@ BEGIN
 EXCEPTION
   WHEN duplicate_object THEN NULL;
 END $$;
+
