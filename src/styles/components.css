@@ -988,58 +988,332 @@
 }
 
 /* --------------------------------------------------------------------------
-   5. TRANSIÇÃO CINEMATOGRÁFICA
+   5. TRANSIÇÃO CINEMATOGRÁFICA ENTRE BLOCOS (LOGO ANIMADA OFICIAL)
    -------------------------------------------------------------------------- */
-.transition-cinematic-card {
-  max-width: 600px;
-  margin: auto;
-  padding: 3rem 1.75rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-@media (max-width: 480px) {
-  .transition-cinematic-card {
-    padding: 2.25rem 1.25rem;
-  }
-}
-
-.transition-bg-number {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(10rem, 30vw, 18rem);
-  line-height: 1;
-  color: rgba(233, 108, 50, 0.04);
-  pointer-events: none;
-  z-index: 0;
+.block-transition-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #060201;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: env(safe-area-inset-top, 1.5rem) 1.25rem env(safe-area-inset-bottom, 1.5rem) 1.25rem;
   user-select: none;
+  -webkit-overflow-scrolling: touch;
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), filter 0.42s ease;
 }
 
-.transition-inner-content {
-  position: relative;
+.block-transition-screen.block-trans-leaving {
+  opacity: 0;
+  transform: scale(1.03);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.block-trans-backdrop {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(233, 108, 50, 0.16) 0%, rgba(12, 6, 4, 0.88) 55%, #050201 100%),
+    radial-gradient(ellipse at 50% 0%, rgba(215, 154, 98, 0.1) 0%, transparent 70%);
+  pointer-events: none;
   z-index: 1;
 }
 
-.transition-block-title {
-  font-size: clamp(1.8rem, 5vw, 2.6rem);
-  font-family: 'Bebas Neue', 'Oswald', sans-serif;
-  color: var(--text-main);
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
+.block-trans-aura {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 440px;
+  height: 260px;
+  max-width: 90vw;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(240, 120, 56, 0.42) 0%,
+    rgba(183, 104, 50, 0.22) 42%,
+    rgba(74, 29, 14, 0.1) 70%,
+    transparent 80%
+  );
+  filter: blur(45px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  animation: introAuraPulse 3.5s ease-in-out infinite alternate;
 }
 
-.transition-quote-text {
-  font-style: italic;
-  font-size: clamp(0.98rem, 2.5vw, 1.1rem);
-  color: var(--metal-gold-aged);
-  max-width: 480px;
-  line-height: 1.6;
+.block-trans-geometry {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.block-trans-math-svg {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  max-width: 90vw;
+  max-height: 90vh;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.block-trans-bg-number {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(10rem, 28vw, 17rem);
+  line-height: 1;
+  color: rgba(233, 108, 50, 0.045);
+  pointer-events: none;
+  z-index: 2;
+  user-select: none;
+  font-weight: 700;
+}
+
+.block-trans-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 620px;
+  width: 100%;
+  margin: auto;
+  padding: 1rem 0;
+}
+
+.block-trans-logo-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  animation: introLogoReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.block-trans-logo-glow {
+  position: absolute;
+  width: 180px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(240, 120, 56, 0.5) 0%, transparent 70%);
+  filter: blur(24px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.block-trans-logo-wrap {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+  animation: logoLevitate 4.5s ease-in-out infinite alternate;
+}
+
+.block-trans-logo-img {
+  width: 250px;
+  max-width: 72vw;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 22px rgba(233, 108, 50, 0.45));
+}
+
+.block-trans-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  -webkit-mask-image: url('/images/logo-ale-oficial.png');
+  mask-image: url('/images/logo-ale-oficial.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 235, 190, 0.3) 45%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(240, 120, 56, 0.6) 55%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 260% 100%;
+  background-position: -130% 0;
+  mix-blend-mode: screen;
+  animation: introSheenSweep 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  animation-delay: 0.3s;
+}
+
+.block-trans-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  color: var(--accent-copper);
+  background: rgba(36, 16, 9, 0.75);
+  border: 1px solid rgba(230, 115, 55, 0.32);
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.block-trans-badge-diamond {
+  color: var(--accent-copper);
+  font-size: 0.62rem;
+  animation: pulseCopper 2s infinite ease-in-out;
+}
+
+.block-trans-title {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  font-size: clamp(2rem, 5.8vw, 3.2rem);
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  color: var(--text-main);
   margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  text-shadow: 0 4px 25px rgba(233, 108, 50, 0.25);
+}
+
+.block-trans-quote {
+  font-style: italic;
+  font-size: clamp(0.92rem, 2.3vw, 1.08rem);
+  color: var(--metal-gold-aged);
+  line-height: 1.55;
+  max-width: 490px;
+  margin: 0 auto 0.65rem auto;
+  border: none;
+  padding: 0 0.5rem;
+}
+
+.block-trans-subtitle {
+  font-size: 0.86rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+  max-width: 440px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.block-trans-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.block-trans-btn {
+  width: 100%;
+  min-height: 52px;
+  font-size: 0.96rem;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.block-trans-btn:active {
+  transform: scale(0.97);
+}
+
+.block-trans-timer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.block-trans-timer-text {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.block-trans-progress-wrap {
+  width: 100%;
+  max-width: 240px;
+  height: 3px;
+  background: rgba(230, 115, 55, 0.18);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.block-trans-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--grad-copper);
+  box-shadow: 0 0 8px var(--accent-copper);
+  animation: blockTransProgressFill 5.5s linear forwards;
+}
+
+@keyframes blockTransProgressFill {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .block-trans-content {
+    padding: 0.5rem 0;
+  }
+
+  .block-trans-logo-stage {
+    margin-bottom: 1rem;
+  }
+
+  .block-trans-logo-img {
+    width: 205px;
+  }
+
+  .block-trans-title {
+    font-size: clamp(1.85rem, 6.5vw, 2.45rem);
+    margin-bottom: 0.65rem;
+  }
+
+  .block-trans-quote {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+  }
+
+  .block-trans-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .block-trans-btn {
+    min-height: 50px;
+    font-size: 0.92rem;
+  }
 }
 
 /* --------------------------------------------------------------------------
