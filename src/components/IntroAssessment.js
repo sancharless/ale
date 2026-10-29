@@ -23,7 +23,7 @@ export function renderIntroAssessment({ onProceed }) {
       </p>
 
       <div class="intro-quote-box">
-        “Não estamos avaliando sorte ou intuição passageira. Estamos analisando a estrutura do seu método decisório.”
+        “Não estamos avaliando sorte ou intuição passageira. Estamos analisando a estrutura da sua tomada de decisões.”
       </div>
 
       <button id="btn-intro-proceed" class="btn btn-primary" type="button" style="width: 100%; max-width: 320px; margin: 0 auto;">
