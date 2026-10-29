@@ -57,6 +57,19 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
           />
         </div>
 
+        <div class="form-group-editorial">
+          <label class="form-editorial-label" for="lead-sms-phone">NÚMERO DE CELULAR (SMS)</label>
+          <input 
+            type="tel" 
+            id="lead-sms-phone" 
+            name="smsPhone" 
+            class="form-editorial-input" 
+            placeholder="(11) 99999-9999" 
+            required
+            autocomplete="tel"
+          />
+        </div>
+
         <label class="form-checkbox-editorial">
           <input type="checkbox" id="lead-consent" name="consent" checked required />
           <span>
@@ -82,13 +95,14 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
   const nameInput = container.querySelector('#lead-name');
   const emailInput = container.querySelector('#lead-email');
   const phoneInput = container.querySelector('#lead-phone');
+  const smsPhoneInput = container.querySelector('#lead-sms-phone');
   const consentInput = container.querySelector('#lead-consent');
   const errorMsg = container.querySelector('#lead-error-msg');
   const submitBtn = container.querySelector('#lead-submit-btn');
   const submitLabel = container.querySelector('#lead-submit-label');
 
-  // Máscara dinâmica (XX) XXXXX-XXXX
-  phoneInput.addEventListener('input', (e) => {
+  // Máscara dinâmica (XX) XXXXX-XXXX para WhatsApp e Celular SMS
+  const applyPhoneMask = (e) => {
     let val = e.target.value.replace(/\D/g, '');
     if (val.length > 11) val = val.substring(0, 11);
     if (val.length > 6) {
@@ -99,7 +113,12 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
       val = `(${val}`;
     }
     e.target.value = val;
-  });
+  };
+
+  phoneInput.addEventListener('input', applyPhoneMask);
+  if (smsPhoneInput) {
+    smsPhoneInput.addEventListener('input', applyPhoneMask);
+  }
 
   let isSubmitting = false;
 
@@ -111,6 +130,7 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const phone = phoneInput.value.trim();
+    const smsPhone = smsPhoneInput ? smsPhoneInput.value.trim() : '';
     const consent = consentInput.checked;
 
     if (!name || name.length < 3) {
@@ -133,6 +153,13 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
       return;
     }
 
+    const smsDigitsOnly = smsPhone.replace(/\D/g, '');
+    if (smsDigitsOnly.length < 10) {
+      showError('Informe um número de celular para SMS válido com DDD.');
+      if (smsPhoneInput) smsPhoneInput.focus();
+      return;
+    }
+
     if (!consent) {
       showError('É necessário consentir para visualizar o relatório.');
       consentInput.focus();
@@ -143,6 +170,7 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
       name,
       email,
       phone,
+      smsPhone,
       consent,
       submittedAt: new Date().toISOString()
     };

@@ -564,7 +564,12 @@ function renderAuthenticatedAdminPanel(onLogout) {
 
       const nameMatch = (item.name || '').toLowerCase().includes(q);
       const emailMatch = (item.email || '').toLowerCase().includes(q);
-      const phoneMatch = (item.phone || '').toLowerCase().includes(q) || (item.phone_digits || '').includes(q);
+      const smsVal = getSmsPhone(item);
+      const phoneMatch =
+        (item.phone || '').toLowerCase().includes(q) ||
+        (item.phone_digits || '').includes(q) ||
+        smsVal.toLowerCase().includes(q) ||
+        smsVal.replace(/\D/g, '').includes(q);
       const profileMatch = (item.profile_name || '').toLowerCase().includes(q);
 
       return nameMatch || emailMatch || phoneMatch || profileMatch;
@@ -649,9 +654,15 @@ function renderAuthenticatedAdminPanel(onLogout) {
                   ✉ ${escapeHtml(item.email || '—')}
                 </span>
                 <span class="student-contact-sep">•</span>
-                <span class="student-contact-item" title="WhatsApp / Telefone">
-                  ✆ ${escapeHtml(item.phone || '—')}
+                <span class="student-contact-item" title="WhatsApp">
+                  ✆ WA: ${escapeHtml(item.phone || '—')}
                 </span>
+                ${getSmsPhone(item) ? `
+                  <span class="student-contact-sep">•</span>
+                  <span class="student-contact-item" title="Celular SMS">
+                    SMS: ${escapeHtml(getSmsPhone(item))}
+                  </span>
+                ` : ''}
               </div>
             </div>
           </div>
@@ -765,6 +776,8 @@ function renderAuthenticatedAdminPanel(onLogout) {
                 <span><strong>E-mail:</strong> ${escapeHtml(item.email || '—')}</span>
                 <span>•</span>
                 <span><strong>WhatsApp:</strong> ${escapeHtml(item.phone || '—')}</span>
+                <span>•</span>
+                <span><strong>Celular (SMS):</strong> ${escapeHtml(getSmsPhone(item) || item.phone || '—')}</span>
               </div>
             </div>
 
@@ -921,6 +934,7 @@ function renderAuthenticatedAdminPanel(onLogout) {
       'Nome Completo',
       'E-mail',
       'WhatsApp',
+      'Celular (SMS)',
       'Indice Geral (0-100)',
       'Nivel',
       'Perfil Identificado',
@@ -945,6 +959,7 @@ function renderAuthenticatedAdminPanel(onLogout) {
         item.name || '',
         item.email || '',
         item.phone || '',
+        getSmsPhone(item) || item.phone || '',
         item.overall_score ?? 0,
         item.profile_code || '',
         item.profile_name || '',
@@ -1017,6 +1032,15 @@ function renderAuthenticatedAdminPanel(onLogout) {
   loadSubmissions();
 
   return wrapper;
+}
+
+function getSmsPhone(item) {
+  if (!item) return '';
+  return (
+    item.sms_phone ||
+    item.insights?.leadContact?.smsPhone ||
+    ''
+  );
 }
 
 function resolveDetailedAnswers(item) {

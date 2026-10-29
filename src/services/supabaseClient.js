@@ -70,6 +70,18 @@ export class SupabaseClient {
       };
     });
 
+    const smsPhoneClean = (safeLead.smsPhone || '').trim();
+    const smsPhoneDigitsClean = smsPhoneClean.replace(/\D/g, '');
+
+    const enrichedInsights = {
+      ...(insights || {}),
+      leadContact: {
+        phone: (safeLead.phone || '').trim(),
+        smsPhone: smsPhoneClean,
+        smsPhoneDigits: smsPhoneDigitsClean
+      }
+    };
+
     return {
       name: (safeLead.name || '').trim(),
       email: (safeLead.email || '').trim().toLowerCase(),
@@ -89,7 +101,7 @@ export class SupabaseClient {
       dimensions: safeDims,
       answers: safeAnswers,
       answers_detailed: answersDetailed,
-      insights: insights || {},
+      insights: enrichedInsights,
       source_url: typeof window !== 'undefined' ? window.location.href : '',
       user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
       submitted_at: safeLead.submittedAt || new Date().toISOString()
