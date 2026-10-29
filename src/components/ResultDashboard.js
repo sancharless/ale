@@ -138,10 +138,11 @@ export function renderResultDashboard({ results, insights, onRestart, leadData }
   // 4. Mapa de Evolução
   const evolutionComponent = renderEvolutionMap({ evolutionMap });
 
-  // 5. CTA Final
+  // 5. Botão de Download do Relatório em PDF
   const ctaComponent = renderFinalCTA({
-    onRestart,
-    targetUrl: 'https://wa.me/?text=Olá!%20Realizei%20meu%20Diagnóstico%20de%20Perfil%20e%20gostaria%20de%20evoluir%20minha%20consistência%20decisória.'
+    results,
+    insights,
+    leadData
   });
 
   // Montagem do painel
