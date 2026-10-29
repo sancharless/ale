@@ -1,5 +1,4 @@
 import { renderAnswerCard } from './AnswerCard.js';
-import { BLOCKS } from '../data/questions.js';
 
 /**
  * Componente QuestionCard
@@ -9,18 +8,6 @@ import { BLOCKS } from '../data/questions.js';
 export function renderQuestionCard({ question, selectedOptionLetter, onAnswer }) {
   const container = document.createElement('div');
   container.className = 'question-editorial-wrapper animate-fade-in';
-
-  const blockMeta = BLOCKS.find(b => b.id === question.blockId);
-  const blockNumber = String(question.blockId).padStart(2, '0');
-  const blockTitle = blockMeta ? blockMeta.title.toUpperCase() : 'SITUAÇÃO DECISÓRIA';
-
-  const metaHeader = document.createElement('div');
-  metaHeader.className = 'question-editorial-meta';
-  metaHeader.innerHTML = `
-    <span class="meta-block-tag">BLOCO ${blockNumber}</span>
-    <span class="meta-dot-sep">•</span>
-    <span class="meta-block-name">${blockTitle}</span>
-  `;
 
   const titleEl = document.createElement('h2');
   titleEl.className = 'question-editorial-headline';
@@ -54,7 +41,6 @@ export function renderQuestionCard({ question, selectedOptionLetter, onAnswer })
     answersGrid.appendChild(answerCard);
   });
 
-  container.appendChild(metaHeader);
   container.appendChild(titleEl);
   container.appendChild(answersGrid);
 

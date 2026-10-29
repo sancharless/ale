@@ -875,21 +875,6 @@
   flex: 1;
 }
 
-.question-editorial-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.74rem;
-  letter-spacing: 0.1em;
-  color: var(--metal-gold-aged);
-}
-
-.meta-block-tag {
-  color: var(--accent-copper);
-  font-weight: 700;
-}
-
 .question-editorial-headline {
   font-size: clamp(1.35rem, 4.2vw, 1.95rem);
   font-family: 'Bebas Neue', 'Oswald', sans-serif;
