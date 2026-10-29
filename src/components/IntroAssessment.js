@@ -8,14 +8,9 @@ export function renderIntroAssessment({ onProceed }) {
   container.className = 'container animate-fade-in';
 
   container.innerHTML = `
-    <div class="intro-modal-card glass-card">
-      <div class="section-meta-label" style="justify-content: center; margin-bottom: 1.25rem;">
-        <span class="label-num">02</span>
-        <span>DIRETRIZ DE AVALIAÇÃO</span>
-      </div>
-
+    <div class="intro-modal-card">
       <h2 class="intro-editorial-title">
-        NÃO EXISTEM RESPOSTAS PERFEITAS.
+        NÃO EXISTEM RESPOSTAS <span class="text-highlight-copper">PERFEITAS</span>.
       </h2>
 
       <p class="intro-editorial-body">
