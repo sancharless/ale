@@ -1429,6 +1429,7 @@
   color: var(--text-main);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .lead-editorial-subtitle {

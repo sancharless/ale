@@ -9,11 +9,6 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
 
   container.innerHTML = `
     <div class="lead-card-editorial glass-card">
-      <div class="section-meta-label">
-        <span class="label-num">05</span>
-        <span>RELATÓRIO PRONTO PARA EMISSÃO</span>
-      </div>
-
       <h2 class="lead-editorial-title">
         SEU DIAGNÓSTICO ESTÁ CONCLUÍDO.
       </h2>
