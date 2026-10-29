@@ -4,12 +4,220 @@ import { PROFILES } from '../data/profiles.js';
 
 /**
  * Componente AdminDashboard — Central Executiva de Cadastros e Diagnósticos
- * Acesso exclusivo via rota dedicada (/admin, /admin.html ou #admin)
+ * Acesso exclusivo via rota dedicada (/admin, /admin.html ou #admin) com autenticação por Login e Senha
  */
 
+const ADMIN_AUTH_STORAGE_KEY = 'ale_admin_auth_session_v1';
+
+const DEFAULT_VALID_USERS = ['admin', 'ale', 'admin@ale.com'];
+const DEFAULT_VALID_PASSWORDS = ['ale2026', 'Ale@2026', 'admin2026'];
+
+function isAdminAuthenticated() {
+  try {
+    return (
+      sessionStorage.getItem(ADMIN_AUTH_STORAGE_KEY) === 'authenticated' ||
+      localStorage.getItem(ADMIN_AUTH_STORAGE_KEY) === 'authenticated'
+    );
+  } catch {
+    return false;
+  }
+}
+
+function setAdminAuthenticated(remember = true) {
+  try {
+    sessionStorage.setItem(ADMIN_AUTH_STORAGE_KEY, 'authenticated');
+    if (remember) {
+      localStorage.setItem(ADMIN_AUTH_STORAGE_KEY, 'authenticated');
+    } else {
+      localStorage.removeItem(ADMIN_AUTH_STORAGE_KEY);
+    }
+  } catch {
+    // Ignora falha de storage
+  }
+}
+
+function clearAdminAuthentication() {
+  try {
+    sessionStorage.removeItem(ADMIN_AUTH_STORAGE_KEY);
+    localStorage.removeItem(ADMIN_AUTH_STORAGE_KEY);
+  } catch {
+    // Ignora falha de storage
+  }
+}
+
+function verifyAdminCredentials(usernameInput, passwordInput) {
+  const userClean = (usernameInput || '').trim().toLowerCase();
+  const passClean = (passwordInput || '').trim();
+
+  const envUser = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_ADMIN_USER)
+    ? import.meta.env.VITE_ADMIN_USER.trim().toLowerCase()
+    : null;
+  const envPass = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_ADMIN_PASSWORD)
+    ? import.meta.env.VITE_ADMIN_PASSWORD.trim()
+    : null;
+
+  const validUsers = envUser ? [envUser, ...DEFAULT_VALID_USERS] : DEFAULT_VALID_USERS;
+  const validPasswords = envPass ? [envPass, ...DEFAULT_VALID_PASSWORDS] : DEFAULT_VALID_PASSWORDS;
+
+  return validUsers.includes(userClean) && validPasswords.includes(passClean);
+}
+
 export function renderAdminDashboard() {
+  const rootWrapper = document.createElement('div');
+  rootWrapper.className = 'admin-page-wrapper animate-fade-in';
+
+  function mountView() {
+    rootWrapper.innerHTML = '';
+    if (!isAdminAuthenticated()) {
+      rootWrapper.appendChild(renderAdminLoginGate(() => {
+        mountView();
+      }));
+    } else {
+      rootWrapper.appendChild(renderAuthenticatedAdminPanel(() => {
+        clearAdminAuthentication();
+        mountView();
+      }));
+    }
+  }
+
+  mountView();
+  return rootWrapper;
+}
+
+function renderAdminLoginGate(onSuccess) {
+  const loginSection = document.createElement('section');
+  loginSection.className = 'container admin-login-container animate-fade-in';
+
+  loginSection.innerHTML = `
+    <div class="admin-login-card glass-card">
+      <div class="admin-login-logo-wrap">
+        <img
+          src="/images/logo-ale-oficial.png"
+          alt="Alê — Logo Oficial"
+          class="admin-login-logo"
+        />
+      </div>
+
+      <div class="admin-login-badge">
+        <span class="admin-brand-dot"></span>
+        <span>ÁREA RESTRITA • ADMINISTRAÇÃO ALÊ</span>
+      </div>
+
+      <h1 class="admin-login-title">
+        PAINEL DE <span class="text-highlight-copper">CADASTROS</span>
+      </h1>
+
+      <p class="admin-login-subtitle">
+        Insira suas credenciais de administrador para acessar os dados e diagnósticos dos alunos.
+      </p>
+
+      <form id="admin-login-form" class="admin-login-form" novalidate>
+        <div class="form-group-editorial">
+          <label class="form-editorial-label" for="admin-login-user">LOGIN / USUÁRIO</label>
+          <input
+            type="text"
+            id="admin-login-user"
+            name="username"
+            class="form-editorial-input"
+            placeholder="Digite seu usuário (ex: admin)"
+            autocomplete="username"
+            required
+          />
+        </div>
+
+        <div class="form-group-editorial">
+          <label class="form-editorial-label" for="admin-login-pass">SENHA DE ACESSO</label>
+          <div class="admin-password-field-wrap">
+            <input
+              type="password"
+              id="admin-login-pass"
+              name="password"
+              class="form-editorial-input admin-password-input"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              required
+            />
+            <button
+              type="button"
+              id="btn-toggle-pass"
+              class="admin-toggle-pass-btn"
+              aria-label="Mostrar ou ocultar senha"
+              title="Mostrar/ocultar senha"
+            >
+              VER
+            </button>
+          </div>
+        </div>
+
+        <label class="form-checkbox-editorial" style="margin-top: 0.25rem;">
+          <input type="checkbox" id="admin-login-remember" checked />
+          <span>Manter conectado neste dispositivo</span>
+        </label>
+
+        <div id="admin-login-error" class="lead-error-banner" style="display: none;"></div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+          <span>ACESSAR PAINEL ADMIN</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+  `;
+
+  const form = loginSection.querySelector('#admin-login-form');
+  const userInput = loginSection.querySelector('#admin-login-user');
+  const passInput = loginSection.querySelector('#admin-login-pass');
+  const rememberInput = loginSection.querySelector('#admin-login-remember');
+  const togglePassBtn = loginSection.querySelector('#btn-toggle-pass');
+  const errorBanner = loginSection.querySelector('#admin-login-error');
+
+  if (togglePassBtn && passInput) {
+    togglePassBtn.addEventListener('click', () => {
+      const isHidden = passInput.type === 'password';
+      passInput.type = isHidden ? 'text' : 'password';
+      togglePassBtn.textContent = isHidden ? 'OCULTAR' : 'VER';
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorBanner.style.display = 'none';
+
+      const username = userInput.value;
+      const password = passInput.value;
+
+      if (!username.trim() || !password.trim()) {
+        errorBanner.textContent = 'Preencha o usuário e a senha para continuar.';
+        errorBanner.style.display = 'block';
+        return;
+      }
+
+      if (!verifyAdminCredentials(username, password)) {
+        errorBanner.textContent = 'Usuário ou senha inválidos. Verifique suas credenciais.';
+        errorBanner.style.display = 'block';
+        passInput.value = '';
+        passInput.focus();
+        return;
+      }
+
+      setAdminAuthenticated(Boolean(rememberInput?.checked));
+      onSuccess();
+    });
+  }
+
+  setTimeout(() => {
+    userInput?.focus();
+  }, 80);
+
+  return loginSection;
+}
+
+function renderAuthenticatedAdminPanel(onLogout) {
   const wrapper = document.createElement('div');
-  wrapper.className = 'admin-page-wrapper animate-fade-in';
 
   const state = {
     loading: true,
@@ -33,9 +241,15 @@ export function renderAdminDashboard() {
             <span>ACESSO ADMINISTRATIVO • GESTÃO DE ALUNOS ALÊ</span>
           </div>
 
-          <div class="admin-connection-status" id="admin-conn-badge">
-            <span class="conn-indicator is-loading" id="admin-conn-dot"></span>
-            <span id="admin-conn-text">Conectando ao Supabase...</span>
+          <div class="admin-top-status-group">
+            <div class="admin-connection-status" id="admin-conn-badge">
+              <span class="conn-indicator is-loading" id="admin-conn-dot"></span>
+              <span id="admin-conn-text">Conectando ao Supabase...</span>
+            </div>
+
+            <button type="button" id="btn-admin-logout" class="btn-admin-logout" title="Encerrar sessão administrativa">
+              <span>SAIR</span>
+            </button>
           </div>
         </div>
 
@@ -160,6 +374,7 @@ export function renderAdminDashboard() {
   const btnRefresh = wrapper.querySelector('#btn-admin-refresh');
   const labelRefresh = wrapper.querySelector('#label-admin-refresh');
   const btnExport = wrapper.querySelector('#btn-admin-export');
+  const btnLogout = wrapper.querySelector('#btn-admin-logout');
   const searchInput = wrapper.querySelector('#admin-search-input');
   const profileSelect = wrapper.querySelector('#admin-filter-profile');
   const sortSelect = wrapper.querySelector('#admin-sort-by');
@@ -770,6 +985,12 @@ export function renderAdminDashboard() {
     btnExport.addEventListener('click', () => exportToCSV());
   }
 
+  if (btnLogout && typeof onLogout === 'function') {
+    btnLogout.addEventListener('click', () => {
+      onLogout();
+    });
+  }
+
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       state.searchQuery = e.target.value || '';
@@ -856,3 +1077,4 @@ function escapeCsvCell(val) {
   const str = String(val ?? '').replace(/"/g, '""');
   return `"${str}"`;
 }
+

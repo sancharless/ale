@@ -17,6 +17,131 @@
 }
 
 /* --------------------------------------------------------------------------
+   0. TELA DE LOGIN ADMINISTRATIVO (ÁREA RESTRITA)
+   -------------------------------------------------------------------------- */
+.admin-login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 140px);
+  padding: 1.5rem 1rem;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(155deg, rgba(28, 13, 8, 0.94), rgba(12, 5, 3, 0.98));
+  border: 1px solid rgba(233, 108, 50, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem 2rem;
+  box-shadow: 0 28px 65px rgba(0, 0, 0, 0.72), 0 0 40px -10px rgba(233, 108, 50, 0.22);
+  text-align: center;
+}
+
+.admin-login-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.15rem;
+}
+
+.admin-login-logo {
+  height: 58px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 18px rgba(233, 108, 50, 0.35));
+}
+
+.admin-login-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--metal-gold-aged);
+  background: rgba(18, 8, 5, 0.85);
+  border: 1px solid rgba(215, 154, 98, 0.22);
+  border-radius: 999px;
+  padding: 0.28rem 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.admin-login-title {
+  font-family: 'Bebas Neue', 'Oswald', sans-serif;
+  font-size: 2.25rem;
+  letter-spacing: 0.04em;
+  color: var(--text-main);
+  line-height: 1.05;
+  margin-bottom: 0.4rem;
+}
+
+.admin-login-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.45;
+}
+
+.admin-login-form {
+  text-align: left;
+}
+
+.admin-password-field-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.admin-password-input {
+  padding-right: 4.5rem !important;
+}
+
+.admin-toggle-pass-btn {
+  position: absolute;
+  right: 0.65rem;
+  background: rgba(41, 18, 10, 0.85);
+  border: 1px solid rgba(215, 154, 98, 0.25);
+  border-radius: 4px;
+  color: var(--metal-gold-aged);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-toggle-pass-btn:hover {
+  border-color: var(--accent-copper);
+  color: #FFF;
+}
+
+.admin-top-status-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-admin-logout {
+  background: rgba(38, 16, 9, 0.85);
+  border: 1px solid rgba(215, 154, 98, 0.28);
+  border-radius: 999px;
+  color: var(--metal-gold-aged);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-admin-logout:hover {
+  border-color: var(--accent-copper);
+  color: #FFF;
+  background: rgba(65, 27, 14, 0.95);
+}
+
+/* --------------------------------------------------------------------------
    1. CABEÇALHO DO PAINEL ADMIN
    -------------------------------------------------------------------------- */
 .admin-hero-header {
@@ -988,3 +1113,4 @@
   background: rgba(216, 91, 40, 0.15);
   border-color: #E96C32;
 }
+
