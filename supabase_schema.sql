@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS public.diagnostic_submissions (
     email TEXT NOT NULL,
     phone TEXT NOT NULL,
     phone_digits TEXT,
+    sms_phone TEXT,
+    sms_phone_digits TEXT,
     consent BOOLEAN NOT NULL DEFAULT true,
     
     -- Resultado Consolidado do Perfil
@@ -45,24 +47,30 @@ CREATE TABLE IF NOT EXISTS public.diagnostic_submissions (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. Índices de Performance para Consultas, Filtros e CRM
+-- 3. Garantir que as novas colunas de Celular (SMS) existam caso a tabela já tenha sido criada antes
+ALTER TABLE public.diagnostic_submissions ADD COLUMN IF NOT EXISTS sms_phone TEXT;
+ALTER TABLE public.diagnostic_submissions ADD COLUMN IF NOT EXISTS sms_phone_digits TEXT;
+
+-- 4. Índices de Performance para Consultas, Filtros, Painel Admin e CRM
 CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_email ON public.diagnostic_submissions (email);
 CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_phone_digits ON public.diagnostic_submissions (phone_digits);
+CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_sms_phone_digits ON public.diagnostic_submissions (sms_phone_digits);
 CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_profile_id ON public.diagnostic_submissions (profile_id);
 CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_overall_score ON public.diagnostic_submissions (overall_score DESC);
 CREATE INDEX IF NOT EXISTS idx_diagnostic_submissions_created_at ON public.diagnostic_submissions (created_at DESC);
 
--- 4. Garantir permissões na Data API para as roles anon e authenticated
+-- 5. Garantir permissões na Data API para as roles anon e authenticated
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
-GRANT SELECT, INSERT, UPDATE ON TABLE public.diagnostic_submissions TO anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.diagnostic_submissions TO anon, authenticated;
 
--- 5. Habilitar Row Level Security (RLS)
+-- 6. Habilitar Row Level Security (RLS)
 ALTER TABLE public.diagnostic_submissions ENABLE ROW LEVEL SECURITY;
 
 -- Limpar políticas anteriores caso o script seja re-executado
 DROP POLICY IF EXISTS "Permitir insercao publica de diagnosticos" ON public.diagnostic_submissions;
 DROP POLICY IF EXISTS "Permitir leitura de diagnosticos" ON public.diagnostic_submissions;
 DROP POLICY IF EXISTS "Permitir atualizacao de diagnosticos" ON public.diagnostic_submissions;
+DROP POLICY IF EXISTS "Permitir exclusao de diagnosticos pelo admin" ON public.diagnostic_submissions;
 
 -- Políticas de Acesso para a Chave Publicável (anon / authenticated)
 CREATE POLICY "Permitir insercao publica de diagnosticos"
@@ -84,7 +92,13 @@ TO anon, authenticated
 USING (true)
 WITH CHECK (true);
 
--- 5. Habilitar Supabase Realtime para acompanhamento em tempo real
+CREATE POLICY "Permitir exclusao de diagnosticos pelo admin"
+ON public.diagnostic_submissions
+FOR DELETE
+TO anon, authenticated
+USING (true);
+
+-- 7. Habilitar Supabase Realtime para acompanhamento em tempo real no Painel Admin
 DO $$
 BEGIN
   IF EXISTS (SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime') THEN
@@ -94,3 +108,5 @@ EXCEPTION
   WHEN duplicate_object THEN NULL;
 END $$;
 
+-- 8. Recarregar o cache de schema do PostgREST automaticamente
+NOTIFY pgrst, 'reload schema';

@@ -87,6 +87,8 @@ export class SupabaseClient {
       email: (safeLead.email || '').trim().toLowerCase(),
       phone: (safeLead.phone || '').trim(),
       phone_digits: (safeLead.phone || '').replace(/\D/g, ''),
+      sms_phone: smsPhoneClean,
+      sms_phone_digits: smsPhoneDigitsClean,
       consent: Boolean(safeLead.consent ?? true),
       overall_score: Number(safeResults.overallScore) || 0,
       profile_id: safeProfile.id || 'indefinido',
@@ -132,13 +134,25 @@ export class SupabaseClient {
     const endpoint = `${this.config.url}/rest/v1/diagnostic_submissions`;
 
     try {
-      const response = await fetch(endpoint, {
+      let response = await fetch(endpoint, {
         method: 'POST',
         headers: this.getHeaders({
           'Prefer': 'return=minimal'
         }),
         body: JSON.stringify(row)
       });
+
+      // Fallback automático caso o usuário ainda não tenha executado o ALTER TABLE com sms_phone
+      if (!response.ok && response.status === 400) {
+        const { sms_phone, sms_phone_digits, ...legacyRow } = row;
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: this.getHeaders({
+            'Prefer': 'return=minimal'
+          }),
+          body: JSON.stringify(legacyRow)
+        });
+      }
 
       if (!response.ok) {
         let errorDetail = response.statusText;
