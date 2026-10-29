@@ -62,24 +62,6 @@ export function renderHero({ onStart }) {
           Uma análise personalizada sobre comportamento, disciplina, gestão de risco, probabilidade e processo decisório.
         </p>
 
-        <!-- Indicadores Rápidos -->
-        <div class="hero-indicators-bar">
-          <div class="ind-pill">
-            <span class="ind-pill-num">20</span>
-            <span class="ind-pill-txt">SITUAÇÕES</span>
-          </div>
-          <div class="ind-pill-divider"></div>
-          <div class="ind-pill">
-            <span class="ind-pill-num">05</span>
-            <span class="ind-pill-txt">DIMENSÕES</span>
-          </div>
-          <div class="ind-pill-divider"></div>
-          <div class="ind-pill">
-            <span class="ind-pill-num">100%</span>
-            <span class="ind-pill-txt">PERSONALIZADO</span>
-          </div>
-        </div>
-
         <!-- Bloco de Ação / CTA -->
         <div class="hero-cta-wrapper">
           <button id="btn-hero-start" class="btn btn-primary" type="button">

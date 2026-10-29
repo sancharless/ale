@@ -180,13 +180,6 @@
   animation: logoAuraPulse 4s ease-in-out infinite alternate;
 }
 
-@media (min-width: 900px) {
-  .hero-logo-aura {
-    left: 160px;
-    top: 50%;
-  }
-}
-
 /* GEOMETRIA NUMÉRICA E ÓRBITAS SUTIS */
 .hero-logo-geometry {
   position: absolute;
@@ -197,13 +190,6 @@
   height: 170px;
   pointer-events: none;
   z-index: 2;
-}
-
-@media (min-width: 900px) {
-  .hero-logo-geometry {
-    left: 160px;
-    top: 50%;
-  }
 }
 
 .logo-geom-ring {
@@ -521,62 +507,36 @@
   color: var(--text-muted);
   line-height: 1.6;
   max-width: 580px;
-  margin: 0 auto 1.75rem auto;
+  margin: 0 auto 2.25rem auto;
 }
 
-/* Indicadores Rápidos Responsivos */
-.hero-indicators-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 520px;
-  padding: 0.85rem 1rem;
-  background: rgba(30, 14, 8, 0.65);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  margin: 0 auto 2rem auto;
-  backdrop-filter: var(--blur-card);
-}
-
-.ind-pill {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  flex: 1;
-  gap: 0.15rem;
-}
-
-@media (min-width: 480px) {
-  .ind-pill {
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.45rem;
+@media (max-width: 600px) {
+  .hero-section-editorial {
+    padding: 0.5rem 0 2rem 0;
   }
-}
 
-.ind-pill-num {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--accent-copper);
-  line-height: 1;
-}
+  .hero-brand-showcase {
+    margin: 0 auto 1.25rem auto;
+  }
 
-.ind-pill-txt {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--metal-gold-aged);
-  text-transform: uppercase;
-}
+  .hero-brand-logo-img {
+    max-width: 255px;
+  }
 
-.ind-pill-divider {
-  width: 1px;
-  height: 24px;
-  background: rgba(230, 115, 55, 0.22);
+  .hero-editorial-title {
+    font-size: clamp(1.85rem, 6.2vw, 2.45rem);
+    margin-bottom: 0.85rem;
+  }
+
+  .hero-editorial-sub {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0 auto 1.75rem auto;
+  }
+
+  .hero-cta-wrapper {
+    gap: 0.75rem;
+  }
 }
 
 .hero-cta-wrapper {
