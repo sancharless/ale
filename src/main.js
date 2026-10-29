@@ -1,6 +1,7 @@
 import { QUESTIONS, BLOCKS } from './data/questions.js';
 import { calculateAssessmentResults } from './data/scoring.js';
 import { generateSmartInsights } from './data/insights.js';
+import { supabaseClient } from './services/supabaseClient.js';
 
 import { renderNavbar } from './components/Navbar.js';
 import { renderHero } from './components/Hero.js';
@@ -38,6 +39,7 @@ class AssessmentApp {
   init() {
     this.render();
     this.playBrandIntro();
+    supabaseClient.flushPendingSubmissions().catch(() => {});
   }
 
   playBrandIntro() {
@@ -246,11 +248,18 @@ class AssessmentApp {
     this.appEl.appendChild(processing);
   }
 
-  // 6. Captura de Lead
+  // 6. Captura de Lead e Sincronização com Supabase
   renderLeadView() {
     const leadCapture = renderLeadCapture({
       privacyPolicyUrl: '#politica-de-privacidade',
-      onSubmitLead: (leadData) => {
+      onSubmitLead: async (leadData) => {
+        await supabaseClient.saveDiagnosticSubmission({
+          leadData,
+          results: this.state.results,
+          insights: this.state.insights,
+          answers: this.state.answers
+        });
+
         this.setState({
           leadData,
           step: 'result'

@@ -72,8 +72,8 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
 
         <div id="lead-error-msg" class="lead-error-banner" style="display: none;"></div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
-          <span>VER MEU DIAGNÓSTICO</span>
+        <button id="lead-submit-btn" type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+          <span id="lead-submit-label">VER MEU DIAGNÓSTICO</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
@@ -89,6 +89,8 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
   const phoneInput = container.querySelector('#lead-phone');
   const consentInput = container.querySelector('#lead-consent');
   const errorMsg = container.querySelector('#lead-error-msg');
+  const submitBtn = container.querySelector('#lead-submit-btn');
+  const submitLabel = container.querySelector('#lead-submit-label');
 
   // Máscara dinâmica (XX) XXXXX-XXXX
   phoneInput.addEventListener('input', (e) => {
@@ -104,8 +106,11 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
     e.target.value = val;
   });
 
-  form.addEventListener('submit', (e) => {
+  let isSubmitting = false;
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
     errorMsg.style.display = 'none';
 
     const name = nameInput.value.trim();
@@ -153,7 +158,17 @@ export function renderLeadCapture({ onSubmitLead, privacyPolicyUrl = '#' }) {
       // Ignora falha de localstorage
     }
 
-    onSubmitLead(leadData);
+    isSubmitting = true;
+    if (submitBtn) submitBtn.disabled = true;
+    if (submitLabel) submitLabel.textContent = 'SINCRONIZANDO DADOS...';
+
+    try {
+      await onSubmitLead(leadData);
+    } finally {
+      isSubmitting = false;
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitLabel) submitLabel.textContent = 'VER MEU DIAGNÓSTICO';
+    }
   });
 
   function showError(msg) {
